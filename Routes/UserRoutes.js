@@ -15,7 +15,7 @@ router.post('/register', async (req, res)=>{
     try {
         const {name , email, password} = req.body;
 
-            if(!name, !email, !password) return res.status(400).json({status:false , message:"all fields are required"})    
+            if(!name ||  !email || !password) return res.status(400).json({status:false , message:"all fields are required"})    
             
             const existingUser = await User.findOne({email})
             if(existingUser) return res.status(400).json({status:false, message:"user already exist"})
@@ -28,7 +28,7 @@ router.post('/register', async (req, res)=>{
         return res.status(201).json({status:true, message:"register successfully"})
 
         } catch (error) {
-            return res.status(400).json({status:false , meaasge:"something went wrong",error: error.message})
+            return res.status(400).json({status:false , message:"something went wrong",error: error.message})
         }
 })
 
@@ -62,12 +62,17 @@ router.post('/login', async (req, res)=>{
 
 router.post('/profile', async(req, res)=>{
     try {
-        const token = req.headers?.authorization.split(' ')[1];
+        const token = req.headers?.authorization.split(" ")[1];
 
         if(!token) return res.status(400).json({status:false, message:"something went wrong", error :error.message})
            jwt.verify(token, secretKey, async(err , decode)=>{
            const user = await User.findById(decode?.id) 
-           return res.status(201).json({status:true,message:"Profile Data", data:user})
+           const userData = {
+            id : user?.id,
+            email: user?.email,
+            password: user?.password
+           }
+           return res.status(201).json({status:true,message:"Profile Data", data: userData})
     })
 
     } catch (error) {
