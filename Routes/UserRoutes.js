@@ -41,6 +41,7 @@ router.post('/login', async (req, res)=>{
             if(!email || !password) return res.status(400).json({status:false , message:"all fields are required"})    
             
             const user = await User.findOne({email});
+            // console.log(user)
 
             if(!user || !(await bcrypt.compare(password , user.password))){
                 return res.status(400).json({status:false, message:"Invalid credentails"});
@@ -54,7 +55,7 @@ router.post('/login', async (req, res)=>{
         } catch (error) {
             return res.status(400).json({status:false , meaasge:"something went wrong",error: error.message})
         }
-})
+}) 
 
 
 
@@ -68,6 +69,7 @@ router.post('/profile', async(req, res)=>{
            jwt.verify(token, secretKey, async(err , decode)=>{
            const user = await User.findById(decode?.id) 
            const userData = {
+            name : user?.name,
             id : user?.id,
             email: user?.email,
             password: user?.password
