@@ -3,11 +3,15 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 const UserRoutes = require('./Routes/UserRoutes')
+const bodyParser = require("body-parser")
+const ContactRoutes = require('./Routes/ContactRoutes')
 
 const app = express();
 
 app.use(express.json())
-
+app.use(express.urlencoded({extended: true}))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors({
     origin:true,
     credentials:true
@@ -19,6 +23,7 @@ app.get('/',(req, res)=>{
 })
 
 app.use('/user',UserRoutes);
+app.use('/', ContactRoutes);
 
 
 mongoose.connect(process.env.MONGO_URI)

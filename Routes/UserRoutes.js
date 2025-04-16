@@ -13,7 +13,8 @@ const secretKey= "HGVFCTXCTRC^^%&T&^RDRCTRFC&^T*&YIUGU*F&F%^D%^RDCTDC%E%"
 
 router.post('/register', async (req, res)=>{
     try {
-        const {name , email, password} = req.body;
+        console.log(req.body);
+        const {name , email, password} = req.body.payload;
 
             if(!name ||  !email || !password) return res.status(400).json({status:false , message:"all fields are required"})    
             
@@ -28,7 +29,8 @@ router.post('/register', async (req, res)=>{
         return res.status(201).json({status:true, message:"register successfully"})
 
         } catch (error) {
-            return res.status(400).json({status:false , message:"something went wrong",error: error.message})
+            console.log(error)
+            return res.status(400).json({status:false , message:"something went wronggggg",error: error.message})
         }
 })
 
