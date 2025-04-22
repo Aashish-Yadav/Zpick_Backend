@@ -5,6 +5,8 @@ require('dotenv').config();
 const UserRoutes = require('./Routes/UserRoutes')
 const bodyParser = require("body-parser")
 const ContactRoutes = require('./Routes/ContactRoutes')
+const uploadRoutes = require('./Routes/uploadRoutes')
+
 
 const app = express();
 
@@ -22,6 +24,8 @@ app.get('/',(req, res)=>{
     res.send("server is runnning")
 })
 
+app.use('/upload', uploadRoutes);
+// app.use('/image', express.static(path.join(__dirname, 'public/temp'))); 
 app.use('/user',UserRoutes);
 app.use('/', ContactRoutes);
 
