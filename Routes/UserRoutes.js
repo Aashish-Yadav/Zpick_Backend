@@ -74,7 +74,9 @@ router.post('/profile', async(req, res)=>{
             name : user?.name,
             id : user?.id,
             email: user?.email,
-            password: user?.password
+            password: user?.password,
+            profileImage: user?.profileImage,
+            profileImagePublicId: user?.profileImagePublicId
            }
            return res.status(201).json({status:true,message:"Profile Data", data: userData})
     })
