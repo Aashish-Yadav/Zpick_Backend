@@ -6,6 +6,7 @@ const UserRoutes = require('./Routes/UserRoutes')
 const bodyParser = require("body-parser")
 const ContactRoutes = require('./Routes/ContactRoutes')
 const uploadRoutes = require('./Routes/uploadRoutes')
+const Product = require('./Routes/ProductRoutes')
 
 
 const app = express();
@@ -25,6 +26,7 @@ app.get('/',(req, res)=>{
 })
 
 app.use('/upload', uploadRoutes);
+app.use('/upload', Product);
 // app.use('/image', express.static(path.join(__dirname, 'public/temp'))); 
 app.use('/user',UserRoutes);
 app.use('/', ContactRoutes);
