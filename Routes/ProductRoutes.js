@@ -108,4 +108,64 @@ router.get('/product', async (req, res) => {
     }
   });
 
+  router.post('/product/details/:id/review', async (req, res) => {
+    try {
+      const { rating, review, userName } = req.body;
+      const productId = req.params.id;
+      
+      // Validation
+      if (!rating || !review || !userName) {
+        return res.status(400).json({ 
+          status: 400, 
+          message: "Rating, review text, and user name are required" 
+        });
+      }
+      
+      // Find the product
+      const product = await Product.findById(productId);
+      
+      if (!product) {
+        return res.status(404).json({ 
+          status: 404, 
+          message: "Product not found" 
+        });
+      }
+      
+      // Create new review
+      const newReview = {
+        userName,
+        rating: Number(rating),
+        review,
+        // userId: req.user._id  // Uncomment if you have authentication implemented
+      };
+      
+      // Add review to product
+      product.reviews.push(newReview);
+      
+      // Recalculate average rating
+      product.calculateAverageRating();
+      
+      // Save the product with new review
+      await product.save();
+      
+      return res.status(200).json({
+        status: 200, 
+        message: "Review added successfully",
+        data: {
+          productId,
+          reviewId: product.reviews[product.reviews.length - 1]._id,
+          avgRating: product.avgRating
+        }
+      });
+      
+    } catch (error) {
+      console.error("Error while adding review:", error);
+      return res.status(500).json({
+        status: 500,
+        message: "Server error while adding review"
+      });
+    }
+  });
+  
+
 module.exports = router;
