@@ -87,4 +87,25 @@ router.get('/product', async (req, res) => {
     }
   });
 
+
+  router.get('/product/details/:id', async (req, res) => {
+    try {
+        console.log(req.params)
+      const products = await Product.find(); // Fetch all products
+  
+      res.status(200).json({
+        status: 200,
+        message: "Products fetched successfully",
+        data: products
+      });
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      res.status(500).json({
+        status: 500,
+        message: "Server error",
+        error: error.message
+      });
+    }
+  });
+
 module.exports = router;
