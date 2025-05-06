@@ -7,6 +7,7 @@ const bodyParser = require("body-parser")
 const ContactRoutes = require('./Routes/ContactRoutes')
 const uploadRoutes = require('./Routes/uploadRoutes')
 const Product = require('./Routes/ProductRoutes')
+const SearchRoutes = require('./Routes/SearchRoutes')
 
 
 const app = express();
@@ -30,6 +31,7 @@ app.use('/upload', Product);
 // app.use('/image', express.static(path.join(__dirname, 'public/temp'))); 
 app.use('/user',UserRoutes);
 app.use('/', ContactRoutes);
+app.use('/product', SearchRoutes);
 
 
 mongoose.connect(process.env.MONGO_URI)
